@@ -111,7 +111,7 @@ public class EnemyScript : MonoBehaviour
         //Jos välimatka pelaajaan on pienempi kuin enemyWeaponRange ja weaopnOnIndicator on aktiivinen, niin activoi ammus ja aloita WaitForWeapon()
         if (weaopnOnIndicator.activeInHierarchy && CheckIfRayCastHitPlayer())
         {
-            ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledEnemyWeaponsList, transform);
+            ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledEnemyWeaponsList, gameObject);
             weaopnOnIndicator.gameObject.SetActive(false);
 
             StartCoroutine(WaitForWeapon());
@@ -151,15 +151,15 @@ public class EnemyScript : MonoBehaviour
         switch (GameManager.GM.CalculatePickup())
         {
             case PickUp.Boost:
-                ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledBoostPickupsList, transform);
+                ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledBoostPickupsList, gameObject);
                 break;
 
             case PickUp.Energy:
-                ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledEnergyPickupsList, transform);
+                ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledEnergyPickupsList, gameObject);
                 break;
 
             case PickUp.Time:
-                ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledTimePickupsList, transform);
+                ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledTimePickupsList, gameObject);
                 break;
         }
         //ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledEnemyExplotionList, transform);

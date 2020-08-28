@@ -162,7 +162,7 @@ public class PlayerControl : MonoBehaviour
         //Aktivoi ammus ja poista yks weapons
         if (GameManager.GM.weapons > 0 && Input.GetKeyDown(KeyCode.Space))
         {
-            ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledPlayerWeaponsList, transform);
+            ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledPlayerWeaponsList, gameObject);
             GameManager.GM.weapons--;
         }
     }

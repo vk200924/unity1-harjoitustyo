@@ -41,8 +41,9 @@ public class ObjectPooler : MonoBehaviour
         }
     }
 
-    //Käy enemyWeapon ja pickuppien prefab listat läpi, aktivoi ensimmäisen prefabin joka ei ole aktiivinen jq asettaa sen parametrina tuodun transformin paikkaan
-    public void ActivatePooledObject(List<GameObject> pooledObjectList, Transform transform)
+    //Käy enemyWeapon, playerWeapon ja pickuppien prefab listat läpi, ja aktivoi ensimmäisen prefabin joka ei ole aktiivinen
+    //Aseta sen paikka parametrina tuodun gameObjectin mukaan riippuen onko se Player vai Enemy. 
+    public void ActivatePooledObject(List<GameObject> pooledObjectList, GameObject theObject)
     {
         
         foreach (GameObject pooledObject in pooledObjectList)
@@ -50,16 +51,14 @@ public class ObjectPooler : MonoBehaviour
 
             if (!pooledObject.activeInHierarchy)
             {
-                //transform.position muille kuin Player
-                Vector3 pos = new Vector3(transform.position.x, 1f, transform.position.z);
+                //transform.position eneemylle
+                Vector3 pos = new Vector3(theObject.transform.position.x, 0.5f, theObject.transform.position.z);
 
-                //transform.position Playerille tai muille
-                pooledObject.transform.position = gameObject.CompareTag("Player") ? transform.position : pos;
-
-                pooledObject.transform.rotation = transform.rotation;
+                //transform.position Playerille tai enemylle
+                pooledObject.transform.position = theObject.CompareTag("Player") ? theObject.transform.position : pos;
+                pooledObject.transform.rotation = theObject.transform.rotation;
                 pooledObject.SetActive(true);
 
-                Debug.Log(pooledObject.name + pooledObject.activeInHierarchy);
                 break;
             }
         }
