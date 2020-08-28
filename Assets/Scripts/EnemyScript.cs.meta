@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 15d006369cd64654f8e16102a9da026a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - boostPrefab: {fileID: 3842853046414244422, guid: 368c4ba668a8e594fa9a9cd452e2f098,
+      type: 3}
+  - projectilePrefab1: {fileID: 7714381585505307562, guid: f84fcec1b0cf94143b8e1e268030df62,
+      type: 3}
+  - projectilePrefab2: {instanceID: 0}
+  - projectilePrefab3: {instanceID: 0}
+  - player: {fileID: 5778166217038655507, guid: df59cbd763cff1e48ad052420d2b05bc,
+      type: 3}
+  - weaopnOnIndicator: {instanceID: 0}
+  - enemyWeapon: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
