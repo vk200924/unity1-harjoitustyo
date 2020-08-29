@@ -101,9 +101,9 @@ MonoBehaviour:
   floatSpeed: 0.04
   floatRate: 0.5
   startScale: {x: 1, y: 1, z: 1}
-  endScale: {x: 1, y: 1, z: 1}
-  scaleSpeed: 0.1
-  scaleRate: 1
+  endScale: {x: 1.2, y: 1.2, z: 1.2}
+  scaleSpeed: 1
+  scaleRate: 0.5
 --- !u!65 &65105269922251268
 BoxCollider:
   m_ObjectHideFlags: 0

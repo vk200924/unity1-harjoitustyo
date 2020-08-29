@@ -24,7 +24,7 @@ public class WeaponScript : MonoBehaviour
 
     IEnumerator CheckIfOutOfBounds()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         
         if (transform.position.x < -100 || transform.position.x > 100 || transform.position.z < -100 || transform.position.z > 100)
         {

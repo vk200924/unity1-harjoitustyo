@@ -38,7 +38,8 @@ public class SpawnManager : MonoBehaviour
 
                 //Luo weaponLoot 
                 Vector3 randomPos = new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
-                Instantiate(weaponLoot, weaponLoot.transform.position + randomPos, transform.rotation);
+                Vector3 weaponBoxPos = weaponLoot.transform.position + randomPos;
+                ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledWeaponBoxList, weaponBoxPos, transform.rotation);
 
                 GameManager.GM.pickUpDivider++;
                 GameManager.gameSpeed += 0.01f;
@@ -51,18 +52,16 @@ public class SpawnManager : MonoBehaviour
     //Arvo satunaisia paikkoja enemylle väliajoin enemyNumberin (waveNumber) verran ja lisää yksi waveNumberiin
     IEnumerator SpawnOEnemies(int enemyNumber)
     {
-        int range = 90;
         spawningEnemies = true;
 
         for (int i = 0; i < enemyNumber; i++)
         {
             yield return new WaitForSeconds(2f);
 
-            Vector3 randomPos;
-            int randomRange = Random.Range(-range, range);
-            randomPos = new Vector3(randomRange, enemy.transform.position.y, randomRange);
+            int randomRange = Random.Range(-90, 90);
+            Vector3 randomPos = new Vector3(randomRange, enemy.transform.position.y, randomRange);
 
-            Instantiate(enemy, randomPos, enemy.transform.rotation);
+            ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledEnemyList, randomPos, transform.rotation);
         }
         spawningEnemies = false;
         waveNumber++;

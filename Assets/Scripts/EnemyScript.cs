@@ -19,10 +19,10 @@ public class EnemyScript : MonoBehaviour
     private const float followSpeed = 25.0f;
     private const float enemyWeaponRange = 100f;
     private const float lookRotationSpeed = 7f;
-    private const float attacktDistance = 50f;
+    private const float attacktDistance = 40f;
     private const float attackSpeed = 50f;
 
-    private bool startMoving = false;
+    private bool enemyIsActive = false;
 
     void Awake()
     {
@@ -31,43 +31,37 @@ public class EnemyScript : MonoBehaviour
         ballPrefabs = GameObject.FindGameObjectsWithTag("Ball");
     }
 
-    private void Start()
-    {
-        StartCoroutine(StartDelay());
-
-    }
-
     private void FixedUpdate()
     {
-        if (!GameManager.GM.gameIsOver && startMoving)
+        if (!GameManager.GM.gameIsOver && enemyIsActive)
         {
             DodgeBall();
-            FollowPlayer();
+            FollowPlayer(followSpeed);
             LookAtPlayer();
         }
     }
 
-    void Update()
+    private void Update()
     {
-        if (!GameManager.GM.gameIsOver && startMoving)
+        if (!GameManager.GM.gameIsOver && enemyIsActive)
         {
             FireAndAttack();
         }
     }
 
+    private void OnEnable()
+    { 
+        StartCoroutine(StartDelay());
+    }
+
     IEnumerator StartDelay()
     {
         yield return new WaitForSeconds(2f);
-        startMoving = true;
+        enemyIsActive = true;
+        weaopnOnIndicator.SetActive(true);
     }
 
-    //AddForce ja LookAt pelaajan suuntaan
-    void FollowPlayer()
-    {
-        AddForceToPlayerDirection(followSpeed);
-    }
-
-    void AddForceToPlayerDirection(float speed)
+    void FollowPlayer(float speed)
     {
         Vector3 playerDirection = (PlayerControl.PC.transform.position - transform.position).normalized;
         enemyRb.AddForce(playerDirection * GameManager.gameSpeed * speed);
@@ -104,23 +98,25 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-
     void FireAndAttack()
     {
 
         //Jos välimatka pelaajaan on pienempi kuin enemyWeaponRange ja weaopnOnIndicator on aktiivinen, niin activoi ammus ja aloita WaitForWeapon()
         if (weaopnOnIndicator.activeInHierarchy && CheckIfRayCastHitPlayer())
         {
-            ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledEnemyWeaponsList, gameObject);
+            Vector3 pos = transform.position + Vector3.up;
+
+            ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledEnemyWeaponsList, pos, transform.rotation);
             weaopnOnIndicator.gameObject.SetActive(false);
+            Debug.Log("Fire");
 
             StartCoroutine(WaitForWeapon());
         }
         else if (Vector3.Distance(transform.position, PlayerControl.PC.transform.position) < attacktDistance)
         {
-            AddForceToPlayerDirection(attackSpeed);
+            Debug.Log("Attack");
+            FollowPlayer(attackSpeed);
             enemyAnim.SetTrigger("Attack");
-
         }
 
     }
@@ -130,7 +126,6 @@ public class EnemyScript : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, enemyWeaponRange) && hit.collider.gameObject.CompareTag("Player"))
         {
-  
             return true;
         }
         return false;
@@ -138,34 +133,44 @@ public class EnemyScript : MonoBehaviour
         //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward * 100f), Color.white);
     }
 
-
     IEnumerator WaitForWeapon()
     {
         yield return new WaitForSeconds(10);
         weaopnOnIndicator.gameObject.SetActive(true);
     }
 
-    //Luo pickupPrefab millä on pienin prosentti, luo räjähdysefekti, lisää points ja poista tämä gameObject
-    void InstantiatePickupAndDestroyEnemy()
+    //Aktivoi Pickup mitä pelaajalla on vähiten
+    void ActivePickUp()
     {
+        Vector3 pickupPos = transform.position + new Vector3(0,5,0);
+        
         switch (GameManager.GM.CalculatePickup())
         {
             case PickUp.Boost:
-                ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledBoostPickupsList, gameObject);
+                ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledBoostPickupsList, pickupPos, transform.rotation);
                 break;
 
             case PickUp.Energy:
-                ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledEnergyPickupsList, gameObject);
+                ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledEnergyPickupsList, pickupPos, transform.rotation);
                 break;
 
             case PickUp.Time:
-                ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledTimePickupsList, gameObject);
+                ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledTimePickupsList, pickupPos, transform.rotation);
                 break;
         }
-        //ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledEnemyExplotionList, transform);
-        Instantiate(explotionParticle, transform.position, transform.rotation);
-        Destroy(gameObject);
-        GameManager.GM.points++;
+    }
+
+    void DeactivateEnemy()
+    {
+        //deaktivoi enemy
+        enemyIsActive = false;
+        gameObject.SetActive(false);
+        weaopnOnIndicator.SetActive(false);
+        enemyRb.velocity = Vector3.zero;
+
+        //Activoi räjähdys
+        ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledEnemyExplotionList, transform.position, transform.rotation);
+
     }
 
     //Jos törmää palloon InstantiateLoot(). Jos törmää seinään pomppaa vähän toiseen suuntaan
@@ -173,16 +178,19 @@ public class EnemyScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ball"))
         {
-            InstantiatePickupAndDestroyEnemy();
+            ActivePickUp();
+            DeactivateEnemy();
+            GameManager.GM.points++;
         }
-
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("PlayerWeapon"))
         {
-            InstantiatePickupAndDestroyEnemy();
+            ActivePickUp();
+            DeactivateEnemy();
+            GameManager.GM.points++;
         }
     }
 

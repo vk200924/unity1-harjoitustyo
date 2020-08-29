@@ -1741,6 +1741,9 @@ MonoBehaviour:
   pooledEnergyPickupsList: []
   pooledBoostPickupsList: []
   pooledTimePickupsList: []
+  pooledEnemyExplotionList: []
+  pooledEnemyList: []
+  pooledWeaponBox: []
   enemyWeaponToPool: {fileID: 1887969965315444, guid: 1656aec7f2b3ffe45a91801f58b00253,
     type: 3}
   playerWeaponToPool: {fileID: 5019904922888360908, guid: 0bb3283e507afbb46a50d8f9c01f929c,
@@ -1750,6 +1753,12 @@ MonoBehaviour:
   boostPickUpToPool: {fileID: 6675617467518576349, guid: 7bca76a7a247e444c9687837cabd94c5,
     type: 3}
   timePickUpToPool: {fileID: 4743999927055212955, guid: 48d57f1d28f187242912d6d141fccd2d,
+    type: 3}
+  explotionToPool: {fileID: 4591074489386836079, guid: 88f976ca6d0ef35468ffa4e6c025295f,
+    type: 3}
+  enemyToPool: {fileID: 8939582525787999176, guid: 7a4354bdd647af145ae8f80cd53a4560,
+    type: 3}
+  weaponBoxToPool: {fileID: 3483615282086412635, guid: 6b8faf956722e7e44afbe30e101bcfc7,
     type: 3}
 --- !u!4 &1160063583 stripped
 Transform:

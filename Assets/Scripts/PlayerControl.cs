@@ -162,7 +162,7 @@ public class PlayerControl : MonoBehaviour
         //Aktivoi ammus ja poista yks weapons
         if (GameManager.GM.weapons > 0 && Input.GetKeyDown(KeyCode.Space))
         {
-            ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledPlayerWeaponsList, gameObject);
+            ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledPlayerWeaponsList, transform.position, transform.rotation);
             GameManager.GM.weapons--;
         }
     }
@@ -185,7 +185,7 @@ public class PlayerControl : MonoBehaviour
         if (collision.gameObject.CompareTag("Ball") && Input.GetKey(KeyCode.X))
         {
             collision.gameObject.transform.position = new Vector3(behindPlayer.transform.position.x, collision.gameObject.transform.position.y, behindPlayer.transform.position.z);
-            collision.gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * -ballForce / 5, ForceMode.Impulse);
+            collision.gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * -ballForce / 4, ForceMode.Impulse);
         }
         //Ammu pallo eteenpäin
         else if (collision.gameObject.CompareTag("Ball"))

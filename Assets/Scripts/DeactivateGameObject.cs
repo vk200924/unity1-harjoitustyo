@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestroyGameObject : MonoBehaviour
+public class DeactivateGameObject : MonoBehaviour
 {
 
-    // Skripti explotion prefabin tuhoamiseen
-    void Start()
+    private void OnEnable()
     {
          StartCoroutine(WaitAndDestroyGameObject());
     }
-    
     IEnumerator WaitAndDestroyGameObject()
     {
         yield return new WaitForSeconds(2.5f);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

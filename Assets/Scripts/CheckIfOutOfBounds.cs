@@ -31,7 +31,7 @@ public class CheckIfOutOfBounds : MonoBehaviour
         if (startPos.y - transform.position.y < -1 || startPos.y - transform.position.y > 1)
         {
             transform.position = new Vector3(transform.position.x, startPos.y, transform.position.z);
-            Debug.Log("reset y " + gameObject.name);
+            //Debug.Log("reset y " + gameObject.name);
         }
     }
 }

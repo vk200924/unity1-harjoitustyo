@@ -10,24 +10,34 @@ public class ObjectPooler : MonoBehaviour
     public List<GameObject> pooledEnergyPickupsList = new List<GameObject>();
     public List<GameObject> pooledBoostPickupsList = new List<GameObject>();
     public List<GameObject> pooledTimePickupsList = new List<GameObject>();
+    public List<GameObject> pooledEnemyExplotionList = new List<GameObject>();
+    public List<GameObject> pooledEnemyList = new List<GameObject>();
+    public List<GameObject> pooledWeaponBoxList = new List<GameObject>();
+
 
     [SerializeField] private GameObject enemyWeaponToPool;
     [SerializeField] private GameObject playerWeaponToPool;
     [SerializeField] private GameObject energyPickUpToPool;
     [SerializeField] private GameObject boostPickUpToPool;
     [SerializeField] private GameObject timePickUpToPool;
+    [SerializeField] private GameObject explotionToPool;
+    [SerializeField] private GameObject enemyToPool;
+    [SerializeField] private GameObject weaponBoxToPool;
 
-    private const int ammountToPool = 20;
+    private const int ammountToPool = 50;
 
     void Awake()
     {
         OP = this;
 
+        MakePooledObjectsList(pooledEnemyList, enemyToPool);
+        MakePooledObjectsList(pooledWeaponBoxList, weaponBoxToPool);
         MakePooledObjectsList(pooledEnemyWeaponsList, enemyWeaponToPool);
         MakePooledObjectsList(pooledPlayerWeaponsList, playerWeaponToPool);
         MakePooledObjectsList(pooledEnergyPickupsList, energyPickUpToPool);
         MakePooledObjectsList(pooledBoostPickupsList, boostPickUpToPool);
         MakePooledObjectsList(pooledTimePickupsList, timePickUpToPool);
+        MakePooledObjectsList(pooledEnemyExplotionList, explotionToPool);
     }
 
     void MakePooledObjectsList(List<GameObject> pooledObjectList, GameObject pooledObject)
@@ -41,30 +51,23 @@ public class ObjectPooler : MonoBehaviour
         }
     }
 
-    //Käy enemyWeapon, playerWeapon ja pickuppien prefab listat läpi, ja aktivoi ensimmäisen prefabin joka ei ole aktiivinen
-    //Aseta sen paikka parametrina tuodun gameObjectin mukaan riippuen onko se Player vai Enemy. 
-    public void ActivatePooledObject(List<GameObject> pooledObjectList, GameObject theObject)
+    //Käy prefab lista läpi ja aktivoi ensimmäisen prefabin joka ei ole aktiivinen
+    //Aseta sen paikka parametrina tuodun pos ja rotation mukaan
+    public void ActivatePooledObject(List<GameObject> pooledObjectList, Vector3 pos, Quaternion rotation)
     {
-        
         foreach (GameObject pooledObject in pooledObjectList)
         {
-
             if (!pooledObject.activeInHierarchy)
             {
-                //transform.position eneemylle
-                Vector3 pos = new Vector3(theObject.transform.position.x, 0.5f, theObject.transform.position.z);
+                pooledObject.transform.position = pos;
+                pooledObject.transform.rotation = rotation;
 
-                //transform.position Playerille tai enemylle
-                pooledObject.transform.position = theObject.CompareTag("Player") ? theObject.transform.position : pos;
-                pooledObject.transform.rotation = theObject.transform.rotation;
                 pooledObject.SetActive(true);
 
                 break;
             }
         }
     }
-
-
 
     public void DeActivatePooledObjects(List<GameObject> pooledObjectList)
     {
@@ -76,6 +79,5 @@ public class ObjectPooler : MonoBehaviour
             }
         }
     }
-
 
 }
