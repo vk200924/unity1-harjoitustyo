@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectPooler : MonoBehaviour
@@ -12,7 +13,6 @@ public class ObjectPooler : MonoBehaviour
     public List<GameObject> pooledTimePickupsList = new List<GameObject>();
     public List<GameObject> pooledEnemyExplotionList = new List<GameObject>();
     public List<GameObject> pooledEnemyList = new List<GameObject>();
-    public List<GameObject> pooledWeaponBoxList = new List<GameObject>();
 
 
     [SerializeField] private GameObject enemyWeaponToPool;
@@ -22,25 +22,28 @@ public class ObjectPooler : MonoBehaviour
     [SerializeField] private GameObject timePickUpToPool;
     [SerializeField] private GameObject explotionToPool;
     [SerializeField] private GameObject enemyToPool;
-    [SerializeField] private GameObject weaponBoxToPool;
 
-    private const int ammountToPool = 50;
+    private const int ammountToPool = 4;
 
     void Awake()
     {
         OP = this;
-
-        MakePooledObjectsList(pooledEnemyList, enemyToPool);
-        MakePooledObjectsList(pooledWeaponBoxList, weaponBoxToPool);
-        MakePooledObjectsList(pooledEnemyWeaponsList, enemyWeaponToPool);
-        MakePooledObjectsList(pooledPlayerWeaponsList, playerWeaponToPool);
-        MakePooledObjectsList(pooledEnergyPickupsList, energyPickUpToPool);
-        MakePooledObjectsList(pooledBoostPickupsList, boostPickUpToPool);
-        MakePooledObjectsList(pooledTimePickupsList, timePickUpToPool);
-        MakePooledObjectsList(pooledEnemyExplotionList, explotionToPool);
+        AddPooledOjects();
     }
 
-    void MakePooledObjectsList(List<GameObject> pooledObjectList, GameObject pooledObject)
+    public void AddPooledOjects()
+    {
+        //Lisää prefab listoihin
+        AddPooledObjectToList(pooledEnemyList, enemyToPool);
+        AddPooledObjectToList(pooledEnemyWeaponsList, enemyWeaponToPool);
+        AddPooledObjectToList(pooledPlayerWeaponsList, playerWeaponToPool);
+        AddPooledObjectToList(pooledEnergyPickupsList, energyPickUpToPool);
+        AddPooledObjectToList(pooledBoostPickupsList, boostPickUpToPool);
+        AddPooledObjectToList(pooledTimePickupsList, timePickUpToPool);
+        AddPooledObjectToList(pooledEnemyExplotionList, explotionToPool);
+    }
+
+    void AddPooledObjectToList(List<GameObject> pooledObjectList, GameObject pooledObject)
     {
         for (int i = 0; i < ammountToPool; i++)
         {
@@ -69,6 +72,7 @@ public class ObjectPooler : MonoBehaviour
         }
     }
 
+    //Deaktivoi kaikki prefabsit listalta
     public void DeActivatePooledObjects(List<GameObject> pooledObjectList)
     {
         foreach (GameObject pooledObject in pooledObjectList)

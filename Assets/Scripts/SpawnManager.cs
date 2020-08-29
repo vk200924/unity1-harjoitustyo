@@ -4,13 +4,12 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject enemy;
-    public GameObject weaponLoot;
+    public GameObject weaponBox;
 
     private int enemyCount;
-    private int waveNumber = 3;
+    public static int waveNumber = 3;
     private bool spawningEnemies = false;
 
-    // Update is called once per frame
     void Update()
     {
         if (!GameManager.GM.gameIsOver)
@@ -22,6 +21,13 @@ public class SpawnManager : MonoBehaviour
             //energy boost ja time on max, tyhjennä kenttä pickup prefabseistä, luo weaponLoot ja lisää yksi PickUp-jakajaan 
             if (enemyCount == 0 && !spawningEnemies)
             {
+                //Lisää Object Pooler listoihin joka neljäs vihollisaalto
+                if (waveNumber % 4 == 0)
+                {
+                    ObjectPooler.OP.AddPooledOjects();
+                    Debug.Log("Added to Pooler wave: " + waveNumber);
+                }
+
                 //Uusi enemyaalto
                 StartCoroutine(SpawnOEnemies(waveNumber));
 
@@ -38,8 +44,8 @@ public class SpawnManager : MonoBehaviour
 
                 //Luo weaponLoot 
                 Vector3 randomPos = new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
-                Vector3 weaponBoxPos = weaponLoot.transform.position + randomPos;
-                ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledWeaponBoxList, weaponBoxPos, transform.rotation);
+                Vector3 weaponBoxPos = weaponBox.transform.position + randomPos;
+                Instantiate(weaponBox, weaponBoxPos, weaponBox.transform.rotation);
 
                 GameManager.GM.pickUpDivider++;
                 GameManager.gameSpeed += 0.01f;
@@ -52,6 +58,7 @@ public class SpawnManager : MonoBehaviour
     //Arvo satunaisia paikkoja enemylle väliajoin enemyNumberin (waveNumber) verran ja lisää yksi waveNumberiin
     IEnumerator SpawnOEnemies(int enemyNumber)
     {
+        waveNumber++;
         spawningEnemies = true;
 
         for (int i = 0; i < enemyNumber; i++)
@@ -64,7 +71,6 @@ public class SpawnManager : MonoBehaviour
             ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledEnemyList, randomPos, transform.rotation);
         }
         spawningEnemies = false;
-        waveNumber++;
     }
 
 }

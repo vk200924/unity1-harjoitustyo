@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeaponScript : MonoBehaviour
 {
-    private const float weaponSpeed = 250.0f;
+    private const float weaponSpeed = 300.0f;
 
     // Update is called once per frame
     void Update()

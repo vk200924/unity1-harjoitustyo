@@ -199,7 +199,6 @@ public class PlayerControl : MonoBehaviour
             GameManager.GM.energy -= 5;
             Vector3 direction = collision.transform.position - transform.position;
             playerRb.AddForce(-direction * 30f, ForceMode.Impulse);
-            dragonAnim.SetTrigger("GetHit");
         }
 
         //WeaponLoot törmätessä lisätää weapons

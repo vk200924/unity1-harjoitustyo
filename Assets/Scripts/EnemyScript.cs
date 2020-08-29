@@ -108,13 +108,10 @@ public class EnemyScript : MonoBehaviour
 
             ObjectPooler.OP.ActivatePooledObject(ObjectPooler.OP.pooledEnemyWeaponsList, pos, transform.rotation);
             weaopnOnIndicator.gameObject.SetActive(false);
-            Debug.Log("Fire");
-
             StartCoroutine(WaitForWeapon());
         }
         else if (Vector3.Distance(transform.position, PlayerControl.PC.transform.position) < attacktDistance)
         {
-            Debug.Log("Attack");
             FollowPlayer(attackSpeed);
             enemyAnim.SetTrigger("Attack");
         }
