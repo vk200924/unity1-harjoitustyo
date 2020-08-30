@@ -23,7 +23,7 @@ public class CheckIfOutOfBounds : MonoBehaviour
     IEnumerator ResetPos()
     {
         yield return new WaitForSeconds(1);
-        if (transform.position.x < -110 || transform.position.x > 110 || transform.position.z < -110 || transform.position.z > 110)
+        if (transform.position.x < -105 || transform.position.x > 105 || transform.position.z < -105 || transform.position.z > 105)
         {
             transform.position = startPos;
             Debug.Log("reset pos " + gameObject.name);

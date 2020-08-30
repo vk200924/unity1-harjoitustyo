@@ -7,7 +7,7 @@ public class ObjectPooler : MonoBehaviour
     public static ObjectPooler OP;
 
     public List<GameObject> pooledEnemyWeaponsList = new List<GameObject>();
-    public List<GameObject> pooledPlayerWeaponsList = new List<GameObject>();
+    //public List<GameObject> pooledPlayerWeaponsList = new List<GameObject>();
     public List<GameObject> pooledEnergyPickupsList = new List<GameObject>();
     public List<GameObject> pooledBoostPickupsList = new List<GameObject>();
     public List<GameObject> pooledTimePickupsList = new List<GameObject>();
@@ -16,7 +16,7 @@ public class ObjectPooler : MonoBehaviour
 
 
     [SerializeField] private GameObject enemyWeaponToPool;
-    [SerializeField] private GameObject playerWeaponToPool;
+    //[SerializeField] private GameObject playerWeaponToPool;
     [SerializeField] private GameObject energyPickUpToPool;
     [SerializeField] private GameObject boostPickUpToPool;
     [SerializeField] private GameObject timePickUpToPool;
@@ -36,7 +36,7 @@ public class ObjectPooler : MonoBehaviour
         //Lisää prefab listoihin
         AddPooledObjectToList(pooledEnemyList, enemyToPool, ammountToPool);
         AddPooledObjectToList(pooledEnemyWeaponsList, enemyWeaponToPool, ammountToPool);
-        AddPooledObjectToList(pooledPlayerWeaponsList, playerWeaponToPool, ammountToPool);
+        //AddPooledObjectToList(pooledPlayerWeaponsList, playerWeaponToPool, ammountToPool);
         AddPooledObjectToList(pooledEnergyPickupsList, energyPickUpToPool, ammountToPool);
         AddPooledObjectToList(pooledBoostPickupsList, boostPickUpToPool, ammountToPool);
         AddPooledObjectToList(pooledTimePickupsList, timePickUpToPool, ammountToPool);
