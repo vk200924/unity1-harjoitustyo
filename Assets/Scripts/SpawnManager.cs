@@ -4,10 +4,10 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject enemy;
-    public GameObject weaponBox;
+    [SerializeField] private GameObject weaponBox;
 
     private int enemyCount;
-    public static int waveNumber = 3;
+    private int waveNumber = 3;
     private bool spawningEnemies = false;
 
     void Update()
@@ -22,11 +22,8 @@ public class SpawnManager : MonoBehaviour
             if (enemyCount == 0 && !spawningEnemies)
             {
                 //Lisää Object Pooler listoihin joka neljäs vihollisaalto
-                if (waveNumber % 4 == 0)
-                {
-                    ObjectPooler.OP.AddPooledOjects();
-                    Debug.Log("Added to Pooler wave: " + waveNumber);
-                }
+                ObjectPooler.OP.AddPooledOjects(1);
+                Debug.Log("Added to Pooler wave: " + waveNumber);
 
                 //Uusi enemyaalto
                 StartCoroutine(SpawnOEnemies(waveNumber));

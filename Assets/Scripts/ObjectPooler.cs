@@ -23,27 +23,27 @@ public class ObjectPooler : MonoBehaviour
     [SerializeField] private GameObject explotionToPool;
     [SerializeField] private GameObject enemyToPool;
 
-    private const int ammountToPool = 4;
+    private const int ammountToPool = 3;
 
     void Awake()
     {
         OP = this;
-        AddPooledOjects();
+        AddPooledOjects(ammountToPool);
     }
 
-    public void AddPooledOjects()
+    public void AddPooledOjects(int ammountToPool)
     {
         //Lisää prefab listoihin
-        AddPooledObjectToList(pooledEnemyList, enemyToPool);
-        AddPooledObjectToList(pooledEnemyWeaponsList, enemyWeaponToPool);
-        AddPooledObjectToList(pooledPlayerWeaponsList, playerWeaponToPool);
-        AddPooledObjectToList(pooledEnergyPickupsList, energyPickUpToPool);
-        AddPooledObjectToList(pooledBoostPickupsList, boostPickUpToPool);
-        AddPooledObjectToList(pooledTimePickupsList, timePickUpToPool);
-        AddPooledObjectToList(pooledEnemyExplotionList, explotionToPool);
+        AddPooledObjectToList(pooledEnemyList, enemyToPool, ammountToPool);
+        AddPooledObjectToList(pooledEnemyWeaponsList, enemyWeaponToPool, ammountToPool);
+        AddPooledObjectToList(pooledPlayerWeaponsList, playerWeaponToPool, ammountToPool);
+        AddPooledObjectToList(pooledEnergyPickupsList, energyPickUpToPool, ammountToPool);
+        AddPooledObjectToList(pooledBoostPickupsList, boostPickUpToPool, ammountToPool);
+        AddPooledObjectToList(pooledTimePickupsList, timePickUpToPool, ammountToPool);
+        AddPooledObjectToList(pooledEnemyExplotionList, explotionToPool, ammountToPool);
     }
 
-    void AddPooledObjectToList(List<GameObject> pooledObjectList, GameObject pooledObject)
+    void AddPooledObjectToList(List<GameObject> pooledObjectList, GameObject pooledObject, int ammountToPool)
     {
         for (int i = 0; i < ammountToPool; i++)
         {

@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI weaponsText;
     [SerializeField] private TextMeshProUGUI pointsText;
     [SerializeField] private TextMeshProUGUI gameOverText;
+    
+    [SerializeField] private TextMeshProUGUI fpsText;
+
 
     [NonSerialized] public int points = 0;
     [NonSerialized] public int weapons = 3;
@@ -33,6 +36,11 @@ public class GameManager : MonoBehaviour
     [NonSerialized] public float energy = 100f;
     readonly public float statMax = 100.0f;
 
+    
+    private int frame = 0;
+    private float fpsTimer = 0;
+    private int framerate = 0;
+
     void Awake()
     {
         GM = this;
@@ -42,7 +50,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         Timer();
-
         //Päivitä tekstit kun pelaaja on elossa
         if (!PlayerIsDead())
         {
@@ -83,6 +90,10 @@ public class GameManager : MonoBehaviour
             gameOverText.gameObject.SetActive(true);
             pointsText.gameObject.SetActive(true);
         }
+
+        //FrameRate. Ei mitään tekemistä pelin kanssa kiinnosti vain tietää kun peli tökki
+        FPS();
+
     }
 
     IEnumerator ClearGameObjects()
@@ -154,5 +165,19 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+
+    //Framerate
+    void FPS()
+    {
+        frame++;
+        fpsTimer += Time.deltaTime;
+        if (Mathf.Floor(fpsTimer) >= 1f)
+        {
+            framerate = frame;
+            fpsTimer = 0;
+            frame = 0;
+        }
+        fpsText.text = "FPS: " + framerate;
+    }
 }
 

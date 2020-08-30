@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MyScene.unity
-    guid: ed17c12190ef8b84399b62214cee9e0a
+    path: Assets/Scenes/harjoitustyo.unity
+    guid: 2d44242bb2cba394ba943e3647ca4d16
   m_configObjects: {}
